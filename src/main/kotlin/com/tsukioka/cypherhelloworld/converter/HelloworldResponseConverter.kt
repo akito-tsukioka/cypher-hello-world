@@ -5,5 +5,5 @@ import com.tsukioka.cypherhelloworld.entity.HelloWorldResponse
 
 internal fun HelloWorldRequest.toResponse(): HelloWorldResponse =
     HelloWorldResponse(
-        message = "Hello, " + this.name
+        message = this.reply()
     )

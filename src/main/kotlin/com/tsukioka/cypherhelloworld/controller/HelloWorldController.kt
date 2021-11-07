@@ -4,21 +4,22 @@ import com.tsukioka.cypherhelloworld.converter.toResponse
 import com.tsukioka.cypherhelloworld.entity.HelloWorldRequest
 import com.tsukioka.cypherhelloworld.entity.HelloWorldResponse
 import com.tsukioka.cypherhelloworld.validator.HelloWorldValidator
-import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.WebDataBinder
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.validation.BeanPropertyBindingResult
 import org.springframework.web.bind.annotation.*
 
 @RestController
 class HelloWorldController(
     private val validator: HelloWorldValidator
 ) {
-    @InitBinder("helloWorldRequest")
-    fun initBinder(binder: WebDataBinder) {
-        binder.addValidators(validator)
-    }
-
     @GetMapping("/hello")
     fun getHelloWorld(
-        @Validated request: HelloWorldRequest
-    ): HelloWorldResponse = request.toResponse()
+        @RequestParam("name", required = false) name: String,
+        @Value(value = "\${text.value}") text: String,
+    ): HelloWorldResponse {
+        val request = HelloWorldRequest(name = name, text = text)
+        validator.validate(request, BeanPropertyBindingResult(request, "helloWorldRequest"))
+
+        return request.toResponse()
+    }
 }
