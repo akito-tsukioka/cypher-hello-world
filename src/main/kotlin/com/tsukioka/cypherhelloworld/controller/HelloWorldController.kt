@@ -6,7 +6,9 @@ import com.tsukioka.cypherhelloworld.entity.HelloWorldResponse
 import com.tsukioka.cypherhelloworld.validator.HelloWorldValidator
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.validation.BeanPropertyBindingResult
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class HelloWorldController(
