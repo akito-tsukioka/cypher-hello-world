@@ -4,5 +4,5 @@ data class HelloWorldRequest(
     val name: String,
     val text: String,
 ) {
-    fun reply() = "Hello, $text $name"
+    fun reply() = "Hello $text $name"
 }
