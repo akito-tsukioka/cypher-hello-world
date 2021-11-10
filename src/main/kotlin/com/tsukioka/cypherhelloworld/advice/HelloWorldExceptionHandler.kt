@@ -1,7 +1,6 @@
 package com.tsukioka.cypherhelloworld.advice
 
 import com.tsukioka.cypherhelloworld.entity.ErrorResponse
-import com.tsukioka.cypherhelloworld.entity.ErrorType
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
@@ -14,15 +13,15 @@ class HelloWorldExceptionHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     fun handler(ex: NoHandlerFoundException): ErrorResponse =
-        ErrorResponse(ErrorType.NOT_FOUND.reason).addDetail(ex.message)
+        ErrorResponse.NOT_FOUND
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     fun handler(ex: ConstraintViolationException): ErrorResponse =
-        ErrorResponse(ErrorType.NAME_ERROR.reason).addDetail(ex.message)
+        ErrorResponse("invalid parameter: detail: [${ex.message}]")
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     fun handler(ex: Exception): ErrorResponse =
-        ErrorResponse(ErrorType.INTERNAL_SERVER_ERROR.reason).addDetail(ex.message)
+        ErrorResponse.INTERNAL_SERVER_ERROR
 }
