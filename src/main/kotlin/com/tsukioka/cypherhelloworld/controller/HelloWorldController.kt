@@ -3,25 +3,19 @@ package com.tsukioka.cypherhelloworld.controller
 import com.tsukioka.cypherhelloworld.converter.toResponse
 import com.tsukioka.cypherhelloworld.entity.HelloWorldRequest
 import com.tsukioka.cypherhelloworld.entity.HelloWorldResponse
-import com.tsukioka.cypherhelloworld.validator.HelloWorldValidator
+import org.springframework.validation.annotation.Validated
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.validation.BeanPropertyBindingResult
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import javax.validation.constraints.Size
 
+@Validated
 @RestController
-class HelloWorldController(
-    private val validator: HelloWorldValidator
-) {
+class HelloWorldController {
     @GetMapping("/hello")
     fun getHelloWorld(
-        @RequestParam("name", required = false) name: String,
-        @Value(value = "\${text.value}") text: String,
-    ): HelloWorldResponse {
-        val request = HelloWorldRequest(name = name, text = text)
-        validator.validate(request, BeanPropertyBindingResult(request, "helloWorldRequest"))
-
-        return request.toResponse()
-    }
+        @Size(min = 3, max = 10) @RequestParam("name") name: String,
+        @Value(value = "\${text.value}") text: String
+    ): HelloWorldResponse = HelloWorldRequest(name = name, text = text).toResponse()
 }
