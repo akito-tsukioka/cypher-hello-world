@@ -1,0 +1,11 @@
+spring:
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
+  config:
+    activate:
+      on-profile: default
+text:
+  value: my best friend,
